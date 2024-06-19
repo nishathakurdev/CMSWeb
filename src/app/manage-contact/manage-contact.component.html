@@ -1,0 +1,38 @@
+
+<div class="container">
+    <div style="margin-top: 15px ;">
+        <form class="contactForm" [formGroup]="contactForm">
+            
+            <div class="form-group">
+                <label style="color: #000;" >First Name</label>
+                <input formControlName="firstName" type="text" class="form-control" placeholder="Enter First Name">
+                <div *ngIf="getContactControls.firstName.touched && getContactControls.firstName.errors?.required === true"
+                    class="errorMsg">
+                    Please enter first name
+                </div>
+            </div>
+            <div class="form-group">
+                <label style="color: #000;" >Last Name</label>
+                <input formControlName="lastName" type="text" class="form-control" placeholder="Enter Last Name">
+                <div *ngIf="getContactControls.lastName.touched && getContactControls.lastName.errors?.required === true"
+                    class="errorMsg">   
+                    Please enter last name
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label style="color: #000;" >Email</label>
+                <input formControlName="email" type="text" class="form-control" placeholder="Enter Email">
+                <div *ngIf="getContactControls.email.touched &&  getContactControls.email.errors?.email === true"
+                    class="errorMsg">   
+                    Please enter valid email
+                </div>
+            </div>
+            
+            <div class="row" class="col-12 col-md-8" style="margin-top: 10px;">
+                <button (click)="submit()" class="btn btn-primary">Submit</button>
+                <button (click)="cancel()" style="margin-left: 10px;" class="btn btn-secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

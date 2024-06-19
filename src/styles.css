@@ -1,0 +1,27 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.dropdown {
+    border: 1px #c9bebe solid;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.dropdown select {
+    border: none;
+    font-size: 13px
+}
+
+.errorMsg {
+    color: red;
+    font-weight: 200;
+    font-size: small;
+    font-style: italic;
+}
+.textbox {
+    color: black;
+    font-size: small;
+    font-style: normal;
+    font-style: left;
+    margin-top: 5px;
+    margin-left: -30px;
+}
