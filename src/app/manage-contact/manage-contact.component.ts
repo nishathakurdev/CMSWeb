@@ -10,7 +10,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class ManageContactComponent {
   contactForm = new FormGroup({
-    id: new FormControl(0, Validators.required),
+    id: new FormControl(''),
     firstName: new FormControl(null, Validators.required),
     lastName: new FormControl(null, Validators.required),
     email: new FormControl(null, Validators.email),  
@@ -40,7 +40,7 @@ export class ManageContactComponent {
   submit() {
     if (this.contactForm.valid === true) {
       const url: string =
-        this.contactForm.value.id == 0
+        this.contactForm.value.id == ''
           ? 'https://localhost:7169/Contact/Add'
           : 'https://localhost:7169/Contact/Update';
       this.http.post(url, this.contactForm.value).subscribe((res) => {

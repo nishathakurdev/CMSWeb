@@ -39,8 +39,8 @@ export class ContactListComponent implements AfterViewInit {
   }
 
   bind() {
-    this.http.get('https://localhost:7169/Contact/GetAll').subscribe((res:any)=>{    
-    this.contactDataSource=res.value.data;
+    this.http.get('https://localhost:7169/Contact/GetAll').subscribe((res:any)=>{  
+    this.contactDataSource=res.value.data.result;
     })
   }
 
@@ -96,7 +96,7 @@ export class ContactListComponent implements AfterViewInit {
       url = 'https://localhost:7169/Contact/GetAll';
 
     this.http.get(url).subscribe((res:any)=> {      
-      this.contactDataSource=res.value.data;
+      this.contactDataSource=res.value.data.result;
     });
   }
 }
