@@ -6,6 +6,7 @@ import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 import { ManageContactComponent } from '../manage-contact/manage-contact.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-contact-list',
@@ -16,31 +17,21 @@ export class ContactListComponent implements AfterViewInit {
   displayedColumns: string[] = ['firstName', 'lastName','email','edit','delete'];
   contactDataSource: any = new MatTableDataSource<any>();
 
-  @ViewChild(MatSort) sort: MatSort | undefined;
+  @ViewChild(MatPaginator) customPaginator: MatPaginator | undefined;
+  @ViewChild(MatSort) customSort: MatSort | undefined;
 
   constructor(private http: HttpClient, private dialog: MatDialog, private _liveAnnouncer: LiveAnnouncer) {
     this.bind();
   }
   ngAfterViewInit() {
-    this.contactDataSource.sort = this.sort;
-  }
-
-  /** Announce the change in sort state for assistive technology. */
-  announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
+    this.contactDataSource.paginator = this.customPaginator;
   }
 
   bind() {
     this.http.get('https://localhost:7169/Contact/GetAll').subscribe((res:any)=>{  
-    this.contactDataSource=res.value.data.result;
+    this.contactDataSource.data=res.value.data.result;
+    this.contactDataSource.sort = this.customSort
+    this.contactDataSource.paginator = this.customPaginator;
     })
   }
 
@@ -95,8 +86,14 @@ export class ContactListComponent implements AfterViewInit {
     else
       url = 'https://localhost:7169/Contact/GetAll';
 
-    this.http.get(url).subscribe((res:any)=> {      
-      this.contactDataSource=res.value.data.result;
+    this.http.get(url).subscribe((res:any)=> {  
+      if(res.value.data.result)
+        this.contactDataSource.data = res.value.data.result;
+      else 
+        this.contactDataSource.data = res.value.data;
+
+        this.contactDataSource.sort = this.customSort
+        this.contactDataSource.paginator = this.customPaginator;
     });
   }
 }

@@ -12,6 +12,7 @@ import { ContactListComponent } from './contact-list/contact-list.component';
 import { MatSortModule } from '@angular/material/sort';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ManageContactComponent } from './manage-contact/manage-contact.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ManageContactComponent } from './manage-contact/manage-contact.componen
     HttpClientModule,
     MatTableModule,
     MatSortModule,
+    MatPaginatorModule,
     MatDialogModule    
   ],
   providers: [],
