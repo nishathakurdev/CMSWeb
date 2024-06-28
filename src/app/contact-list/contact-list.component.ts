@@ -7,6 +7,7 @@ import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 import { ManageContactComponent } from '../manage-contact/manage-contact.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { DetailsComponent } from '../details/details.component';
 
 @Component({
   selector: 'app-contact-list',
@@ -14,11 +15,13 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./contact-list.component.css']
 })
 export class ContactListComponent implements AfterViewInit {
-  displayedColumns: string[] = ['firstName', 'lastName','email','edit','delete'];
+  displayedColumns: string[] = ['firstName', 'lastName','email','select','edit','delete'];
   contactDataSource: any = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) customPaginator: MatPaginator | undefined;
   @ViewChild(MatSort) customSort: MatSort | undefined;
+  currentSelectedRow: any;
+  contactList: any;
 
   constructor(private http: HttpClient, private dialog: MatDialog, private _liveAnnouncer: LiveAnnouncer) {
     this.bind();
@@ -29,7 +32,8 @@ export class ContactListComponent implements AfterViewInit {
 
   bind() {
     this.http.get('https://localhost:7169/Contact/GetAll').subscribe((res:any)=>{  
-    this.contactDataSource.data=res.value.data.result;
+      this.contactList = res.value.data.result;
+    this.contactDataSource.data= this.contactList 
     this.contactDataSource.sort = this.customSort
     this.contactDataSource.paginator = this.customPaginator;
     })
@@ -61,6 +65,8 @@ export class ContactListComponent implements AfterViewInit {
   delete(id: number) {
     
     const dialogRef = this.dialog.open(ConfirmationComponent, {
+      width: '30%',
+      height:'20%',
       data: {
         title: 'Delete Contact confirmation',
         message: 'Are you sure you want to delete Contact',
@@ -88,12 +94,35 @@ export class ContactListComponent implements AfterViewInit {
 
     this.http.get(url).subscribe((res:any)=> {  
       if(res.value.data.result)
-        this.contactDataSource.data = res.value.data.result;
-      else 
-        this.contactDataSource.data = res.value.data;
-
+        {
+          this.contactList = res.value.data.result;
+          this.contactDataSource.data= this.contactList 
+        }
+      else
+      { 
+        this.contactList = res.value.data;
+        this.contactDataSource.data= this.contactList 
+      }
         this.contactDataSource.sort = this.customSort
         this.contactDataSource.paginator = this.customPaginator;
     });
   }
+
+  selectedRow(rowData: any) {
+    this.contactList.forEach((el: any) => {
+      el.isSlected = false;
+    });
+    rowData.isSlected = true;
+    this.currentSelectedRow = rowData;    
+    const dialogRef = this.dialog.open(DetailsComponent, {
+      width: '30%',
+      height:'45%',
+      data: rowData,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.bind();
+    });
+  }
+
 }

@@ -13,13 +13,15 @@ import { MatSortModule } from '@angular/material/sort';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ManageContactComponent } from './manage-contact/manage-contact.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { DetailsComponent } from './details/details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ConfirmationComponent,
     ContactListComponent,
-    ManageContactComponent
+    ManageContactComponent,
+    DetailsComponent
   ],
   imports: [
     BrowserModule,

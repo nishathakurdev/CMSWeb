@@ -2,3 +2,7 @@ th{
     font-weight: bolder;
     background-color: #000000;
 }
+
+.selectedrow {
+    background-color: #aad3e5 !important;
+}
